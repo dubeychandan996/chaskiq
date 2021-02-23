@@ -103,7 +103,7 @@ Rails.application.configure do
 
   # Do not dump schema after migrations.
   # config.active_record.dump_schema_after_migration = false
-  delivery_method = ENV.fetch('SMTP_DELIVERY_METHOD', 'smtp')
+  delivery_method = ENV.fetch('SMTP_DELIVERY_METHOD', 'ses')
 
   if delivery_method.downcase == "smtp"
      config.action_mailer.delivery_method = :smtp
@@ -112,7 +112,6 @@ Rails.application.configure do
       :user_name => ENV['SMTP_USERNAME'], # Your SMTP user here.
       :password => ENV['SMTP_PASSWORD'], # Your SMTP password here.
       :authentication => :login,
-      :port => 465,
       :enable_starttls_auto => true
      }
   else
@@ -121,7 +120,7 @@ Rails.application.configure do
                                           secret_access_key: ENV['AWS_SECRET_ACCESS_KEY'],
                                           signature_version: 4
                          
-    config.action_mailer.delivery_method = :smtp
+    config.action_mailer.delivery_method = :ses
   end
 
   # Inserts middleware to perform automatic connection switching.
